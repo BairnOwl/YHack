@@ -117,3 +117,6 @@ class DataStore(object):
     def others_with_interest(self, user, interest):
         for user in self.db.user.find({"_id": {"$ne": user.id}, "interests": {"$in": [interest.data]}}):
             yield User(user)
+
+    def add_interests(self, username, interests):
+        self.db.user.update_one({"username": username}, {"$push": {"interests": {"$each": interests}}})

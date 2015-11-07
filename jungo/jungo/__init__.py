@@ -19,6 +19,7 @@ def main(global_config, **settings):
 
     config.add_route('api_add_user', '/api/user', request_method='POST')
     config.add_route('api_user', '/api/user/{username}', request_method='GET')
+    config.add_route('api_add_interests', '/api/user/{username}/interests', request_method='POST')
 
     db_url = settings['mongo_uri']
 

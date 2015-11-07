@@ -84,3 +84,18 @@ def api_user(request):
     else:
         request.response.status_code = 404
         return {'error': 'Unknown user "{}"'.format(username)}
+
+@view_config(route_name='api_add_interests', renderer='json')
+def api_add_interests(request):
+    username = request.matchdict['username']
+    if isinstance(request.json_body, list):
+        for interest in request.json_body:
+            if 'name' not in interest or 'facebook_id' not in interest:
+                request.response.status_code = 400
+                return {'error': 'Must specify name and facebook_id'}
+        request.db.add_interests(username, request.json_body)
+        request.response.location = request.route_url('api_user', username=username)
+        return {'username': username, 'added_interests': request.json_body}
+    else:
+        request.response.status_code = 400
+        return {'error': 'Expected array of interests'}
