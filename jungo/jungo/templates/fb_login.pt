@@ -140,10 +140,28 @@
                           console.log(interest_id);
                           console.log(name);
 
-                          $.post("/api/user/dvader/interests", {
-                              interests: [
-                                  {name: name, facebook_id: interest_id}
-                              ]
+//                          $.post("/api/user/dvader/interests", {
+//                              interests: [
+//                                  {name: name, facebook_id: interest_id}
+//                              ]
+//                          });
+
+                          $.ajax({
+                                url: '/api/user/dvader/interests',
+                                contentType: "application/json; charset=utf-8",
+                                data: JSON.stringify(
+                                    [
+                                        {"name": name, "facebook_id": interest_id}
+                                    ]
+                                ),
+
+                                type: 'POST',
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
                           });
                       })
 
