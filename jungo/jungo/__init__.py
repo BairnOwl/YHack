@@ -15,6 +15,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('fb', '/fb')
+    config.add_route('interest_match', '/interest-match/{username}/{interest_id}')
 
     db_url = settings['mongo_uri']
 

@@ -35,7 +35,7 @@
                         <p>${user.name} has many interests, including</p>
                         <ul>
                             <li tal:repeat="interest user.interests">
-                                ${interest}
+                                ${interest.name} (<i>${interest.facebook_id}</i>)
                             </li>
                         </ul>
                     </li>
