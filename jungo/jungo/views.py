@@ -3,6 +3,8 @@ log = logging.getLogger(__name__)
 
 from pyramid.view import view_config
 
+from .model import User
+
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
 def my_view(request):
     log.debug('Hello, World!')
@@ -22,3 +24,63 @@ def interest_match_view(request):
     interest = next(i for i in user.interests if i.facebook_id == interest_id)
     return list(request.db.others_with_interest(user, interest))
 
+#######
+# API #
+#######
+
+@view_config(route_name='api_add_user', renderer='json')
+def api_add_user(request):
+    if isinstance(request.json_body, dict):
+        if 'name' in request.json_body:
+            name = request.json_body['name']
+        else:
+            request.response.status_code = 400
+            return {'error': 'Missing name'}
+
+        if 'username' in request.json_body:
+            username = request.json_body['username']
+        else:
+            request.response.status_code = 400
+            return {'error': 'Missing username'}
+
+        if 'facebook_id' in request.json_body:
+            facebook_id = request.json_body['facebook_id']
+        else:
+            request.response.status_code = 400
+            return {'error': 'Missing facebook_id'}
+
+        interests = []
+        if 'interests' in request.json_body:
+            if isinstance(request.json_body['interests'], list):
+                for interest in request.json_body['interests']:
+                    if 'name' not in interest:
+                        request.response.status_code = 400
+                        return {'error': 'Missing name of interest'}
+                    if 'facebook_id' not in interest:
+                        request.response.status_code = 400
+                        return {'error': 'Missing facebook_id of interest'}
+                    interests.append({'name': interest['name'], 'facebook_id': interest['facebook_id']})
+            else:
+                request.response.status_code = 400
+                return {'error': 'interests must be an array'}
+
+        user = User({
+            'name': name,
+            'username': username,
+            'facebook_id': facebook_id,
+            'interests': interests
+        })
+        request.db.insert_user(user)
+        request.response.status_code = 201
+        request.response.location = request.route_url('api_user', username=username)
+        return user
+
+@view_config(route_name='api_user', renderer='json')
+def api_user(request):
+    username = request.matchdict['username']
+    user = request.db.get_user(username)
+    if user is not None:
+        return user
+    else:
+        request.response.status_code = 404
+        return {'error': 'Unknown user "{}"'.format(username)}

@@ -17,6 +17,9 @@ def main(global_config, **settings):
     config.add_route('fb', '/fb')
     config.add_route('interest_match', '/interest-match/{username}/{interest_id}')
 
+    config.add_route('api_add_user', '/api/user', request_method='POST')
+    config.add_route('api_user', '/api/user/{username}', request_method='GET')
+
     db_url = settings['mongo_uri']
 
     config.registry.client = pymongo.MongoClient(db_url)

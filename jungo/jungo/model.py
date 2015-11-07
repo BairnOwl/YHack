@@ -89,7 +89,6 @@ class User(object):
             'name': self.name,
             'username': self.username,
             'facebook_id': self.facebook_id,
-            'id': str(self.id),
             'interests': self.data['interests']
         }
 
@@ -105,11 +104,15 @@ class DataStore(object):
             yield User(user)
 
     def get_user(self, username):
-        return User(self.db.user.find_one({"username": username}))
+        data = self.db.user.find_one({"username": username})
+        if data is not None:
+            return User(data)
+        else:
+            return None
 
     # Shouldn't be used for updates if possible  - use Mongo's actual update API
     def insert_user(self, user):
-        return self.db.user.insert_one(user.data)
+        return self.db.user.insert_one(user.data).inserted_id
 
     def others_with_interest(self, user, interest):
         for user in self.db.user.find({"_id": {"$ne": user.id}, "interests": {"$in": [interest.data]}}):
