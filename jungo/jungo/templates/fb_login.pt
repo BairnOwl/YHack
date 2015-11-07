@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="${request.locale_name}">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
 </head>
@@ -84,6 +85,34 @@
         'Thanks for logging in, ' + response.name + '!';
     });
   }
+
+  function search() {
+      /* make the API call */
+//      FB.api('/me', {fields: 'last_name'}, function (response) {
+//          console.log(response);
+//      });
+
+      var searchTerm = $('#searchBox').val();
+
+      FB.api(
+          "/search?q=" + searchTerm + "&type=page",
+          function (response) {
+              if (response && !response.error) {
+                /* handle the result */
+                  //var pageArray = response.data;
+                  //var name = pageArray[0].name;
+                  //var id = pageArray[0].id;
+
+                  //$('#pageDisplay').attr('src', 'http://www.facebook.com/pages/' + name + '/' + id);
+
+                  console.log(response);
+              } else {
+                  console.log(response);
+              }
+          }
+      );
+  }
+
 </script>
 
 <!--
@@ -98,8 +127,9 @@
 <div id="status">
 </div>
 
-<div>
-    <input type="button" value="get user info" onclick="testAPI();">
+<div id="search_panel">
+    <input id="searchBox" type="text" style="width: 300px;" />
+    <input type="button" value="Search" onclick="search();">
 </div>
 
 </body>
