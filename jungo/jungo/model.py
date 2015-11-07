@@ -118,8 +118,8 @@ class DataStore(object):
     def insert_user(self, user):
         return self.db.user.insert_one(user.data).inserted_id
 
-    def others_with_interest(self, user, interest):
-        for user in self.db.user.find({"_id": {"$ne": user.id}, "interests": {"$in": [interest.data]}}):
+    def others_with_interest(self, username, interest):
+        for user in self.db.user.find({"username": {"$ne": username}, "interests": {"$elemMatch": {"facebook_id": interest}}}):
             yield User(user)
 
     def add_interests(self, username, interests):
@@ -129,6 +129,7 @@ class DataStore(object):
         pipeline = [
             {"$unwind": "$interests"},
             {"$group": {"_id": "$interests.name", "facebook_id": {"$first": "$interests.facebook_id"}, "count": {"$sum": 1}}},
+            {"$project": {"_id": 0, "name": "$_id", "facebook_id": 1, "count": 1}},
             {"$sort": {"count": -1}},
             {"$limit": limit}
         ]

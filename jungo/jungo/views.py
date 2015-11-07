@@ -16,13 +16,22 @@ def fb_view(request):
     return dict()
 
 
+@view_config(route_name='common_interests', renderer='templates/common_interests.pt')
+def common_interests_view(request):
+    if 'limit' in request.GET:
+        limit = int(request.GET['limit'])
+    else:
+        limit = 5
+    interests = request.db.common_interests(limit)
+    log.info("Interests: {}".format(interests))
+    return {'interests': interests}
+
+
 @view_config(route_name='interest_match', renderer='json')
 def interest_match_view(request):
     username = request.matchdict['username']
     interest_id = int(request.matchdict['interest_id'])
-    user = request.db.get_user(username)
-    interest = next(i for i in user.interests if i.facebook_id == interest_id)
-    return list(request.db.others_with_interest(user, interest))
+    return list(request.db.others_with_interest(username, interest_id))
 
 #######
 # API #
