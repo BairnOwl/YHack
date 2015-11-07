@@ -134,11 +134,10 @@
                       //descriptionArray.append(description);
 
                       $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
-                              + '<button id="fb-add-' + interest_id + '">Add</button></div>');
+                              + '<button id="fb-add-' + interest_id + '">Add</button>'
+                              + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
 
                       $("#fb-add-" + interest_id).click(function() {
-                          console.log(interest_id);
-                          console.log(name);
 
 //                          $.post("/api/user/dvader/interests", {
 //                              interests: [
@@ -147,7 +146,7 @@
 //                          });
 
                           $.ajax({
-                                url: '/api/user/dvader/interests',
+                                url: '/api/user/sp42/interests',
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify(
                                     [
@@ -156,6 +155,20 @@
                                 ),
 
                                 type: 'POST',
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                          });
+                      })
+
+                      $('#fb-find-users-' + interest_id).click(function() {
+
+                          $.ajax({
+                                url: '/interest-match/dvader/' + interest_id,
+                                type: 'GET',
                                 success: function(response) {
                                     console.log(response);
                                 },
