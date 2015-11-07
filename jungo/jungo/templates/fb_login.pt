@@ -112,28 +112,31 @@
 
                   //$('#pageDisplay').attr('src', 'http://www.facebook.com/pages/' + name + '/' + id);
 
-                  console.log(response);
-
                   var item = '';
                   //var nameArray = [];
                   //var aboutArray = [];
                   //var descriptionArray = [];
 
+                  $('#display').html('');
+
                   for (var i = 0; i < pageArray.length; i++) {
                       var id = pageArray[i].id;
 
-                      FB.api('/' + id + '?metadata=1&fields=id,name,about,description,general_info', function(response) {
+                      FB.api('/' + id + '?fields=id,name,about,description,general_info,' + 'photos{link,images}', function(response) {
 
                       var name = response['name'];
                       var about = response['about'];
                       var description = response['description'];
                       var interest_id = response['id'];
+                      var photo_link = response['photos'].data[0].images[0].source;
 
                       //nameArray.append(name);
                       //aboutArray.append(about);
                       //descriptionArray.append(description);
+                          console.log(response);
 
-                      $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
+                      $('#display').append('<div class="item" id="' + interest_id + '" >' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
+                              + '<img src="' + photo_link + '" style="max-height:200px; max-width:200px;" />'
                               + '<button id="fb-add-' + interest_id + '">Add</button>'
                               + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
 
@@ -146,7 +149,7 @@
 //                          });
 
                           $.ajax({
-                                url: '/api/user/sp42/interests',
+                                url: '/api/user/bnavetta/interests',
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify(
                                     [
@@ -171,6 +174,10 @@
                                 type: 'GET',
                                 success: function(response) {
                                     console.log(response);
+                                    for (var i = 0; i < response.length; i++) {
+                                         $('#' + interest_id).append('<p>' + response[i].name + '</p>');
+                                    }
+
                                 },
                                 error: function(error) {
                                     console.log(error);
