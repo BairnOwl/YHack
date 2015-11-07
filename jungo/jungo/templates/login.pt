@@ -3,12 +3,19 @@
         <title>Log In</title>
     </metal:content>
     <metal:content fill-slot="header">
-        <h1>Log In</h1>
+        <h1>Log In!</h1>
     </metal:content>
     <div metal:fill-slot="content">
-        <div tal:replace="message"></div>
-        <form action="${url}" method="post">
+        <div id="message">
+            <span tal:replace="message"></span>
+        </div>
+
+        <fb:login-button scope="public_profile,email" onlogin="loginStatusChange();">
+        </fb:login-button>
+
+        <form id="login-form" action="${url}" method="post">
             <input type="hidden" name="came_from" value="${came_from}">
+            <input type="hidden" name="facebook_id" id="facebook_id" value="">
             <div class="form-group">
                 <label for="login">Username</label>
                 <input type="text" name="login" value="${login}">
@@ -18,4 +25,55 @@
             </div>
         </form>
     </div>
+
+    <metal:content fill-slot="defer">
+        <script>
+
+            $(document).ready(function () {
+                $("#login-form").hide();
+                $("#login-form > button").attr("disabled", true);
+            });
+
+            window.loginStatusChange = function(response) {
+                if (response.status == 'connected')
+                {
+                    FB.api('/me', function (response) {
+                        $("#message").text("Welcome, " + response.name);
+                        $("#facebook_id").val(response.id);
+                        $("#login-form").show();
+                        $("#login-form > button").attr("disabled", false);
+                    });
+                }
+                else if (response.status == 'not_authorized')
+                {
+                    $("#message").text("Please log in via Facebook");
+                }
+                else
+                {
+                    $("#message").text("Please log in to Facebook");
+                }
+            };
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '931894896899419',
+                    cookie: true,  // enable cookies to allow the server to access
+                                   // the session
+                    xfbml: true,  // parse social plugins on this page
+                    version: 'v2.2' // use version 2.2
+                });
+
+                FB.getLoginStatus(loginStatusChange);
+            };
+
+            // Load the SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+    </metal:content>
 </metal:main>

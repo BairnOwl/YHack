@@ -21,10 +21,14 @@ def login(request):
         login = request.params['login']
         user = request.db.get_user(login)
         if user is not None:
-            headers = remember(request, login)
-            request.session['user'] = user
-            return HTTPFound(location = came_from, headers = headers)
-        message = 'Failed login'
+            if 'facebook_id' in request.params and user.facebook_id == int(request.params['facebook_id']):
+                headers = remember(request, login)
+                request.session['user'] = user
+                return HTTPFound(location = came_from, headers = headers)
+            else:
+                message = 'Mismatch with Facebook'
+        else:
+            message = 'Failed login'
 
     return dict(message = message, url = request.application_url + '/login', came_from = came_from, login = login)
 
