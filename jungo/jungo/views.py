@@ -34,7 +34,7 @@ def logout(request):
     request.session['user'] = None
     return HTTPFound(location = request.route_url('home'), headers = headers)
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
+@view_config(route_name='home', renderer='templates/mytemplate.pt', permission = 'view')
 def my_view(request):
     log.debug('Hello, World!')
     return {'project': 'jungo', 'users': request.db.users()}
