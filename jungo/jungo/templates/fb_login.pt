@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="${request.locale_name}">
 <head>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
