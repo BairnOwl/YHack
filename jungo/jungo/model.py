@@ -48,7 +48,8 @@ class User(object):
 
     def __init__(self, data):
         self.data = data
-        self.__name__ = self.username
+        if 'username' in data:
+            self.__name__ = self.username
 
     def __acl__(self):
         return [
