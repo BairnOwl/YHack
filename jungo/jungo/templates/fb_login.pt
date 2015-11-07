@@ -4,6 +4,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
+    <style>
+        .item {
+            border: 2px solid green;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -100,31 +105,59 @@
               if (response && !response.error) {
                 /* handle the result */
                   var pageArray = response.data;
-                  var name = pageArray[0].name;
-                  var id = pageArray[0].id;
+
+                  //var name = pageArray[0].name;
+                  //var id = pageArray[0].id;
 
                   //$('#pageDisplay').attr('src', 'http://www.facebook.com/pages/' + name + '/' + id);
 
                   console.log(response);
 
-                  FB.api('/' + id + '?metadata=1&fields=about,description,general_info', function(response) {
-                      console.log(response);
+                  var item = '';
+                  //var nameArray = [];
+                  //var aboutArray = [];
+                  //var descriptionArray = [];
+
+                  for (var i = 0; i < pageArray.length; i++) {
+                      var id = pageArray[i].id;
+
+                      FB.api('/' + id + '?metadata=1&fields=name,about,description,general_info', function(response) {
+                      //console.log(response);
+                      var name = response['name'];
                       var about = response['about'];
                       var description = response['description'];
-                      console.log(about);
-                      console.log(description);
-
-                      $('#display').append('<p>' + about + '</p>');
-                      $('#display').append('<p>' + description + '</p>');
+                      //console.log(about);
+                      //console.log(description);
 
 
-                  });
+                      //nameArray.append(name);
+                      //aboutArray.append(about);
+                      //descriptionArray.append(description);
 
-                  FB.api('/' + id + '/photos?fields=link,images', function(response) {
-                      console.log(response);
-                      var image = response.data[0].images[0].source;
-                      $('#display').append('<img src="' + image + '"/>');
-                  });
+                      $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>' + '</div>');
+
+
+                      });
+
+                      FB.api('/' + id + '/photos?fields=link,images', function(response) {
+                          //console.log(response);
+                          //var image = response.data[0].images[0].source;
+                          //item += '<img src="' + image + '" style="max-height:200px; max-width:200px;" />';
+
+                      });
+
+                  }
+
+                  //item = '';
+                      //item += '<div class="item">';
+                      //item += '<p>' + nameArray[i] + '</p>';
+                      //item += '<p>' + aboutArray[i] + '</p>';
+                      //item += '<p>' + descriptionArray[i] + '</p>';
+                      //item += '</div>';
+
+                      //$('#display').append(item);
+
+
               } else {
                   console.log(response);
               }
