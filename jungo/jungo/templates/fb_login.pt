@@ -91,6 +91,7 @@
     });
   }
 
+
   function search() {
       /* make the API call */
 //      FB.api('/me', {fields: 'last_name'}, function (response) {
@@ -121,20 +122,30 @@
                   for (var i = 0; i < pageArray.length; i++) {
                       var id = pageArray[i].id;
 
-                      FB.api('/' + id + '?metadata=1&fields=name,about,description,general_info', function(response) {
-                      //console.log(response);
+                      FB.api('/' + id + '?metadata=1&fields=id,name,about,description,general_info', function(response) {
+
                       var name = response['name'];
                       var about = response['about'];
                       var description = response['description'];
-                      //console.log(about);
-                      //console.log(description);
-
+                      var interest_id = response['id'];
 
                       //nameArray.append(name);
                       //aboutArray.append(about);
                       //descriptionArray.append(description);
 
-                      $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>' + '</div>');
+                      $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
+                              + '<button id="fb-add-' + interest_id + '">Add</button></div>');
+
+                      $("#fb-add-" + interest_id).click(function() {
+                          console.log(interest_id);
+                          console.log(name);
+
+                          $.post("/api/user/dvader/interests", {
+                              interests: [
+                                  {name: name, facebook_id: interest_id}
+                              ]
+                          });
+                      })
 
 
                       });
@@ -162,7 +173,7 @@
                   console.log(response);
               }
           }
-      );
+      )
   }
 
 </script>

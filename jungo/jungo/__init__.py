@@ -52,6 +52,7 @@ POST /api/user
 }
 
 $('#display').append('<div class="item">' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>' + '</div>');
+
     '<button id="fb-add-' + interest_id + '"></button>'
     $("#fb-add-" + interest_id).click(function() {
     // do something with interest_id
