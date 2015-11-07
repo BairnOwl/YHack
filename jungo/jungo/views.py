@@ -22,11 +22,12 @@ def login(request):
         user = request.db.get_user(login)
         if user is None: # new account
             if 'facebook_id' in request.params: # TODO: check if existing user w/ same facebook_id
-                user = User(dict())
-                user.facebook_id = int(request.params['facebook_id'])
-                user.username = login
-                user.name = request.params['name']
-                user.interests = []
+                user = User(dict(
+                    facebook_id = int(request.params['facebook_id']),
+                    username = login,
+                    name = request.params['login'],
+                    interests = []
+                ))
                 request.db.insert_user(user)
                 headers = remember(request, login)
                 request.session['user'] = user
