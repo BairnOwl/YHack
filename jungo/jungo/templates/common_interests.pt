@@ -1,0 +1,12 @@
+<metal:main use-macro="load: layout.pt">
+    <metal:overrides metal:fill-slot="vars">
+        <tal:defines define="global title 'Common Interests'"></tal:defines>
+    </metal:overrides>
+    <div metal:fill-slot="content">
+        <ul>
+            <li tal:repeat="interest interests">
+                <strong>${interest['name']}</strong> (${interest['count']} people)
+            </li>
+        </ul>
+    </div>
+</metal:main>

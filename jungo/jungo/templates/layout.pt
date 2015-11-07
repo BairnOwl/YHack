@@ -1,9 +1,11 @@
-<html lang="${request.locale.name}"
+<!DOCTYPE html>
+<html tal:define="global title ''">
+    <metal:overrides metal:define-slot="vars"></metal:overrides>
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><metal:content define-slot="title"></metal:content></title>
+        <title>${title} | Jungo</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     </head>
@@ -11,10 +13,24 @@
     <body>
     <div class="container">
         <div class="row">
+            <header class="col-md-12" id="header">
+                <h1>${title}</h1>
+            </header>
+        </div>
+        <div class="row">
+            <aside class="col-md-2">
 
+            </aside>
+            <div class="col-md-8">
+                <metal:content define-slot="content"></metal:content>
+            </div>
+            <aside class="col-md-2">
+
+            </aside>
         </div>
     </div>
 
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     </body>
 </html>
