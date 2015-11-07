@@ -14,13 +14,14 @@ def main(global_config, **settings):
 
     db_url = settings['mongo_uri']
     db_name = settings['mongo_db']
+
     config.registry.client = pymongo.MongoClient(db_url)
     config.registry.db = config.registry.client[db_name]
 
     def add_db(request):
-        db = config.registry.db[db_url.path[1:]]
-        if db_url.username and db_url.password:
-            db.authenticate(db_url.username, db_url.password)
+        db = config.registry.db
+        if 'mongo_user' in settings and 'mongo_password' in settings:
+            db.authenticate(settings['mongo_user'], settings['mongo_password'])
         return db
 
     def add_fs(request):
