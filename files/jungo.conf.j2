@@ -1,0 +1,6 @@
+[program:jungo]
+command=uwsgi --paste config:/etc/app/jungo/production.ini --socket :3031 -H /opt/app_env
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/jungo.err.log
+stdout_logfile=/var/log/jungo.out.log

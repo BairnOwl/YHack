@@ -1,0 +1,42 @@
+---
+- hosts: webservers
+  vars:
+      http_port: 80
+  remote_user: ben
+  sudo: yes
+  tasks:
+      - name: ensure Supervisor is installed
+        apt: name=supervisor state=present
+      - name: ensure git is installed
+        apt: name=git state=present
+        # http://hakunin.com/six-ansible-practices
+      - name: ensure github.com is a known host
+        lineinfile:
+            dest: /root/.ssh/known_hosts
+            create: yes
+            state: present
+            line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+            regexp: "^github.com"
+      - name: ensure pip is installed
+        apt: name=python-pip state=present
+      - name: ensure virtualenv is installed
+        apt: name=python-virtualenv state=present
+      - name: ensure the latest source code is cloned
+        git: repo=git://github.com/BairnOwl/YHack.git dest=/srv/app
+      - name: ensure Python dependencies are installed
+        pip: requirements=/srv/app/requirements.txt virtualenv=/opt/app_env
+      - name: ensure Supervisor configuration is in place
+        template: src=files/jungo.conf.j2 dest=/etc/supervisor/conf.d/jungo.conf owner=root mode=0644
+      - name: ensure jungo service is started
+        supervisorctl: name=jungo state=started
+      - name: ensure nginx is installed
+        apt: name=nginx state=latest
+      - name: ensure nginx configuration is in place
+        template: src=files/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+        notify:
+            - restart nginx
+      - name: ensure nginx is running
+        service: name=nginx state=started enabled=yes
+  handlers:
+      - name: restart nginx
+        service: name=nginx state=restarted

@@ -1,0 +1,12 @@
+# http://tonylandis.com/python/deployment-howt-pylons-nginx-and-uwsgi/
+server {
+    listen 80;
+    charset utf-8;
+    root /srv/app/jungo/static;
+    index index.html;
+    location / {
+        uwsgi_pass 0.0.0.0:3031
+        include uwsgi_params;
+        uwsgi_param SCRIPT_NAME /;
+    }
+}
