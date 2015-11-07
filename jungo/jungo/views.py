@@ -25,7 +25,7 @@ def login(request):
                 user = User(dict(
                     facebook_id = int(request.params['facebook_id']),
                     username = login,
-                    name = request.params['login'],
+                    name = request.params['name'],
                     interests = []
                 ))
                 request.db.insert_user(user)
