@@ -1,9 +1,38 @@
 import logging
 log = logging.getLogger(__name__)
 
-from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
+from pyramid.view import view_config, forbidden_view_config
+from pyramid.security import remember, forget
 
 from .model import User
+
+@forbidden_view_config(renderer='templates/login.pt')
+@view_config(route_name = 'login', renderer = 'templates/login.pt')
+def login(request):
+    login_url = request.route_url('login')
+    referrer = request.url
+    if referrer == login_url:
+        referrer = '/'
+    came_from = request.params.get('came_from', referrer)
+    message = ''
+    login = ''
+    if 'form.submitted' in request.params:
+        login = request.params['login']
+        user = request.db.get_user(login)
+        if user is not None:
+            headers = remember(request, login)
+            request.session['user'] = user
+            return HTTPFound(location = came_from, headers = headers)
+        message = 'Failed login'
+
+    return dict(message = message, url = request.application_url + '/login', came_from = came_from, login = login)
+
+@view_config(route_name = 'logout')
+def logout(request):
+    headers = forget(request)
+    request.session['user'] = None
+    return HTTPFound(location = request.route_url('home'), headers = headers)
 
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
 def my_view(request):
@@ -26,6 +55,9 @@ def common_interests_view(request):
     log.info("Interests: {}".format(interests))
     return {'interests': interests}
 
+@view_config(route_name='profile', renderer='templates/profile.pt', permission='view')
+def profile_view(context, request):
+    return dict(user=request.session['user'])
 
 @view_config(route_name='interest_match', renderer='json')
 def interest_match_view(request):
@@ -102,6 +134,7 @@ def api_add_interests(request):
             if 'name' not in interest or 'facebook_id' not in interest:
                 request.response.status_code = 400
                 return {'error': 'Must specify name and facebook_id'}
+            interest['facebook_id'] = int(interest['facebook_id'])
         request.db.add_interests(username, request.json_body)
         request.response.location = request.route_url('api_user', username=username)
         return {'username': username, 'added_interests': request.json_body}

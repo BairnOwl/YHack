@@ -1,7 +1,16 @@
 import logging
 log = logging.getLogger(__name__)
 
-import urlparse
+from pyramid.security import Allow, Authenticated, ALL_PERMISSIONS
+
+class RootFactory(object):
+
+    __name__ = 'RootFactory'
+
+    __acl__ = [(Allow, Authenticated, 'view'),
+               (Allow, 'group:admins', ALL_PERMISSIONS)]
+    def __init__(self, request):
+        pass
 
 class Interest(object):
     __slots__ = ['data']
@@ -33,10 +42,21 @@ class Interest(object):
 
 
 class User(object):
-    __slots__ = ['data']
+    __slots__ = ['data', '__name__']
+
+    __parent__ = None
 
     def __init__(self, data):
         self.data = data
+        self.__name__ = self.username
+
+    def __acl__(self):
+        return [
+            (Allow, Authenticated, 'view'),
+            (Allow, self.username, 'match'),
+            (Allow, self.username, 'edit'),
+            (Allow, 'group:admins', ALL_PERMISSIONS),
+        ]
 
     @property
     def facebook_id(self):
@@ -61,6 +81,7 @@ class User(object):
     @username.setter
     def set_username(self, username):
         self.data['username'] = username
+        self.__name__ = username
 
     @property
     def interests(self):

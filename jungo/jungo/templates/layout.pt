@@ -1,25 +1,27 @@
 <!DOCTYPE html>
-<html tal:define="global title ''">
-    <metal:overrides metal:define-slot="vars"></metal:overrides>
+<html>
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${title} | Jungo</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+        <metal:content define-slot="head"></metal:content>
     </head>
 
     <body>
     <div class="container">
         <div class="row">
             <header class="col-md-12" id="header">
-                <h1>${title}</h1>
+                <metal:content metal:define-slot="header"></metal:content>
             </header>
         </div>
         <div class="row">
             <aside class="col-md-2">
-
+                <p tal:condition="request.authenticated_userid">
+                    <a href="${request.application_url}/logout">Logout</a>
+                </p>
             </aside>
             <div class="col-md-8">
                 <metal:content define-slot="content"></metal:content>

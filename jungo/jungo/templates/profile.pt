@@ -1,14 +1,16 @@
 <metal:main use-macro="load: layout.pt">
     <metal:content fill-slot="head">
-        <title>Common Interests</title>
+        <title>${user.name}</title>
     </metal:content>
     <metal:content fill-slot="header">
-        <h1>Common Interests</h1>
+        <h1>${user.name}</h1>
+        <h3>${user.username}</h3>
     </metal:content>
     <div metal:fill-slot="content">
+        <h2>Interests</h2>
         <ul>
-            <li tal:repeat="interest interests">
-                <strong>${interest['name']}</strong> (${interest['count']} people)
+            <li tal:repeat="interest user.interests">
+                ${interest.name}
             </li>
         </ul>
     </div>
