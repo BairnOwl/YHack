@@ -6,6 +6,7 @@ import urlparse
 
 from .model import DataStore
 
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -20,6 +21,7 @@ def main(global_config, **settings):
     config.add_route('api_add_user', '/api/user', request_method='POST')
     config.add_route('api_user', '/api/user/{username}', request_method='GET')
     config.add_route('api_add_interests', '/api/user/{username}/interests', request_method='POST')
+    config.add_route('api_common_interests', '/api/common-interests', request_method='GET')
 
     db_url = settings['mongo_uri']
 
@@ -31,6 +33,8 @@ def main(global_config, **settings):
         if uri.username and uri.password:
             db.authenticate(uri.username, uri.password)
         return DataStore(db)
+
+    add_db(None).create_indices()
 
     config.add_request_method(add_db, 'db', reify=True)
 

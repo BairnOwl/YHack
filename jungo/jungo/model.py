@@ -1,6 +1,7 @@
 import logging
-
 log = logging.getLogger(__name__)
+
+import urlparse
 
 class Interest(object):
     __slots__ = ['data']
@@ -99,6 +100,9 @@ class DataStore(object):
         self.db = db
         log.info("Initializing with {}".format(db))
 
+    def create_indices(self):
+        self.db.user.create_index("username", unique=True)
+
     def users(self):
         for user in self.db.user.find():
             yield User(user)
@@ -120,3 +124,12 @@ class DataStore(object):
 
     def add_interests(self, username, interests):
         self.db.user.update_one({"username": username}, {"$push": {"interests": {"$each": interests}}})
+
+    def common_interests(self, limit):
+        pipeline = [
+            {"$unwind": "$interests"},
+            {"$group": {"_id": "$interests.name", "facebook_id": {"$first": "$interests.facebook_id"}, "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": limit}
+        ]
+        return list(self.db.user.aggregate(pipeline))

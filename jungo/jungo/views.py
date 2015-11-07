@@ -99,3 +99,11 @@ def api_add_interests(request):
     else:
         request.response.status_code = 400
         return {'error': 'Expected array of interests'}
+
+@view_config(route_name='api_common_interests', renderer='json')
+def api_common_interests(request):
+    if 'limit' in request.GET:
+        limit = int(request.GET['limit'])
+    else:
+        limit = 5
+    return {'interests': request.db.common_interests(limit)}
