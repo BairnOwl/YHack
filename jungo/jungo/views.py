@@ -54,7 +54,7 @@ def my_view(request):
     return {'project': 'jungo', 'users': request.db.users()}
 
 
-@view_config(route_name='fb', renderer='templates/fb_login.pt', permission = 'view')
+@view_config(route_name='search', renderer='templates/fb_login.pt', permission = 'view')
 def fb_view(request):
     return dict(user=request.session['user'])
 

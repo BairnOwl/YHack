@@ -18,8 +18,8 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, root_factory='jungo.model.RootFactory')
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route('home', '/')
-    config.add_route('fb', '/fb')
+    config.add_route('home', '/old-home')
+    config.add_route('search', '/')
     config.add_route('common_interests', '/common-interests')
     config.add_route('profile', '/me')
 
