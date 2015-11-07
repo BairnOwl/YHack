@@ -20,15 +20,24 @@ def login(request):
     if 'form.submitted' in request.params:
         login = request.params['login']
         user = request.db.get_user(login)
-        if user is not None:
+        if user is None: # new account
+            if 'facebook_id' in request.params: # TODO: check if existing user w/ same facebook_id
+                user = User(dict())
+                user.facebook_id = int(request.params['facebook_id'])
+                user.username = login
+                user.name = request.params['name']
+                user.interests = []
+                request.db.insert_user(user)
+                headers = remember(request, login)
+                request.session['user'] = user
+                return HTTPFound(location = came_from, headers = headers)
+        else:
             if 'facebook_id' in request.params and user.facebook_id == int(request.params['facebook_id']):
                 headers = remember(request, login)
                 request.session['user'] = user
                 return HTTPFound(location = came_from, headers = headers)
             else:
                 message = 'Mismatch with Facebook'
-        else:
-            message = 'Failed login'
 
     return dict(message = message, url = request.application_url + '/login', came_from = came_from, login = login)
 

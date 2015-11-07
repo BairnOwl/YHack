@@ -16,6 +16,7 @@
         <form id="login-form" action="${url}" method="post">
             <input type="hidden" name="came_from" value="${came_from}">
             <input type="hidden" name="facebook_id" id="facebook_id" value="">
+            <input type="hidden" name="name" id="facebook_name" value="">
             <div class="form-group">
                 <label for="login">Username</label>
                 <input type="text" name="login" value="${login}">
@@ -40,6 +41,7 @@
                     FB.api('/me', function (response) {
                         $("#message").text("Welcome, " + response.name);
                         $("#facebook_id").val(response.id);
+                        $("#facebook_name").val(response.name);
                         $("#login-form").show();
                         $("#login-form > button").attr("disabled", false);
                     });
