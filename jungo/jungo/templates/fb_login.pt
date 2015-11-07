@@ -99,13 +99,32 @@
           function (response) {
               if (response && !response.error) {
                 /* handle the result */
-                  //var pageArray = response.data;
-                  //var name = pageArray[0].name;
-                  //var id = pageArray[0].id;
+                  var pageArray = response.data;
+                  var name = pageArray[0].name;
+                  var id = pageArray[0].id;
 
                   //$('#pageDisplay').attr('src', 'http://www.facebook.com/pages/' + name + '/' + id);
 
                   console.log(response);
+
+                  FB.api('/' + id + '?metadata=1&fields=about,description,general_info', function(response) {
+                      console.log(response);
+                      var about = response['about'];
+                      var description = response['description'];
+                      console.log(about);
+                      console.log(description);
+
+                      $('#display').append('<p>' + about + '</p>');
+                      $('#display').append('<p>' + description + '</p>');
+
+
+                  });
+
+                  FB.api('/' + id + '/photos?fields=link,images', function(response) {
+                      console.log(response);
+                      var image = response.data[0].images[0].source;
+                      $('#display').append('<img src="' + image + '"/>');
+                  });
               } else {
                   console.log(response);
               }
@@ -130,6 +149,10 @@
 <div id="search_panel">
     <input id="searchBox" type="text" style="width: 300px;" />
     <input type="button" value="Search" onclick="search();">
+</div>
+
+<div id="display">
+
 </div>
 
 </body>
