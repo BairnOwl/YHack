@@ -35,6 +35,9 @@
         </style>
     </metal:content>
 <div metal:fill-slot="content">
+
+    <span style="display: none" id="username">${user.username}</span>
+
 <script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -172,8 +175,10 @@
 //                              ]
 //                          });
 
+                          var username = $("#username").text();
+
                           $.ajax({
-                                url: '/api/user/dvader/interests',
+                                url: '/api/user/' + username + '/interests',
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify(
                                     [
