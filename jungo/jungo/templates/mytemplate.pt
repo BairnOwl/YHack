@@ -31,7 +31,13 @@
             <div class="col-md-8">
                 <ul>
                     <li tal:repeat="user users">
-                        <strong>${user.name}</strong> (${user.username}}) is ${user.facebook_id} on Facebook
+                        <p><strong>${user.name}</strong> (${user.username}) is ${user.facebook_id} on Facebook.</p>
+                        <p>${user.name} has many interests, including</p>
+                        <ul>
+                            <li tal:repeat="interest user.interests">
+                                ${interest}
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

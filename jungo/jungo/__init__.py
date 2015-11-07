@@ -1,6 +1,5 @@
 from pyramid.config import Configurator
 
-from gridfs import GridFS
 import pymongo
 
 import urlparse
@@ -28,11 +27,7 @@ def main(global_config, **settings):
             db.authenticate(uri.username, uri.password)
         return DataStore(db)
 
-    def add_fs(request):
-        return GridFS(request.db)
-
     config.add_request_method(add_db, 'db', reify=True)
-    config.add_request_method(add_fs, 'gridfs', reify=True)
 
     config.scan()
 

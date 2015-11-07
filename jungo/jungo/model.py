@@ -32,8 +32,17 @@ class User(object):
     def set_username(self, username):
         self.data['username'] = username
 
+    @property
+    def interests(self):
+        return self.data['interests']
+
+    @interests.setter
+    def set_interests(self, interests):
+        self.data['interests'] = interests
+
     def __str__(self):
-        return "User<{}, name = '{}', facebook_id = {}>".format(self.username, self.name, self.facebook_id)
+        return "User<{}, name = '{}', facebook_id = {}, interests = {}>"\
+            .format(self.username, self.name, self.facebook_id, self.interests)
 
     def __repr__(self):
         return self.__str__()
