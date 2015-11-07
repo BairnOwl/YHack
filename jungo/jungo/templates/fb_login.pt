@@ -1,16 +1,40 @@
-<!DOCTYPE html>
-<html lang="${request.locale_name}">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<title>Facebook Login JavaScript Example</title>
-<meta charset="UTF-8">
-    <style>
-        .item {
-            border: 2px solid green;
+<metal:main use-macro="load: layout.pt">
+    <metal:content fill-slot="head">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <title>Facebook Login JavaScript Example</title>
+
+        <meta charset="UTF-8">
+        <style>
+        /** {
+            margin: 0;
+            padding: 0;
+        }*/
+
+        body {
+            background-color: #5CC201;
         }
-    </style>
-</head>
-<body>
+
+
+        .item {
+            border: 2px solid darkblue;
+            background-color: white;
+            /*width: 80%;
+            margin: auto;*/
+            padding: 10px;
+        }
+
+        .searchImg {
+            max-height: 100px;
+            max-width: 100px;
+
+        }
+
+        #searchBox {
+
+        }
+        </style>
+    </metal:content>
+<div metal:fill-slot="content">
 <script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -136,7 +160,7 @@
                           console.log(response);
 
                       $('#display').append('<div class="item" id="' + interest_id + '" >' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
-                              + '<img src="' + photo_link + '" style="max-height:200px; max-width:200px;" />'
+                              + '<img class="searchImg" src="' + photo_link + '" />'
                               + '<button id="fb-add-' + interest_id + '">Add</button>'
                               + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
 
@@ -149,7 +173,7 @@
 //                          });
 
                           $.ajax({
-                                url: '/api/user/bnavetta/interests',
+                                url: '/api/user/dvader/interests',
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify(
                                     [
@@ -188,24 +212,14 @@
 
                       });
 
-                      FB.api('/' + id + '/photos?fields=link,images', function(response) {
+                      //FB.api('/' + id + '/photos?fields=link,images', function(response) {
                           //console.log(response);
                           //var image = response.data[0].images[0].source;
                           //item += '<img src="' + image + '" style="max-height:200px; max-width:200px;" />';
 
-                      });
+                      //});
 
                   }
-
-                  //item = '';
-                      //item += '<div class="item">';
-                      //item += '<p>' + nameArray[i] + '</p>';
-                      //item += '<p>' + aboutArray[i] + '</p>';
-                      //item += '<p>' + descriptionArray[i] + '</p>';
-                      //item += '</div>';
-
-                      //$('#display').append(item);
-
 
               } else {
                   console.log(response);
@@ -237,5 +251,5 @@
 
 </div>
 
-</body>
-</html>
+</div>
+</metal:main>
