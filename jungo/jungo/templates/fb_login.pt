@@ -8,7 +8,7 @@
         <style>
 
         body {
-            background-color: black;
+            background-color: black; /*#2ecc71*/
         }
 
         h2 {
@@ -280,7 +280,7 @@
         var html = '<div class="item media"><div class="media-left" id="' + interest_id + '" >' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
                 + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p></div>'
                 + '<div class="media-right"><button class="btn-block btn-warning" id="fb-add-' + interest_id + '">Add</button>'
-                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/" + interest_id>More ></a></button></div></div>';
+                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/"' + interest_id + '>More ></a></button></div></div>';
 
         $('#display').append(html);
     }

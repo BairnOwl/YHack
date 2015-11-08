@@ -26,8 +26,8 @@
       <file leaf-file-name="fb_login.pt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jungo/templates/fb_login.pt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2354788" vertical-offset="0" max-vertical-offset="4755">
-              <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.4945055" vertical-offset="3825" max-vertical-offset="4755">
+              <caret line="276" column="41" selection-start-line="276" selection-start-column="41" selection-end-line="276" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -828,8 +828,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jungo/templates/fb_login.pt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2354788" vertical-offset="0" max-vertical-offset="4755">
-          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.4945055" vertical-offset="3825" max-vertical-offset="4755">
+          <caret line="276" column="41" selection-start-line="276" selection-start-column="41" selection-end-line="276" selection-end-column="41" />
           <folding />
         </state>
       </provider>
