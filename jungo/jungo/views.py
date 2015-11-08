@@ -149,6 +149,7 @@ def api_add_interests(request):
                 request.response.status_code = 400
                 return {'error': 'Must specify name and facebook_id'}
             interest['facebook_id'] = int(interest['facebook_id'])
+        log.info("Adding interests for {}: {}".format(username, request.json_body))
         request.db.add_interests(username, request.json_body)
         request.response.location = request.route_url('api_user', username=username)
         return {'username': username, 'added_interests': request.json_body}
