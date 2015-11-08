@@ -147,6 +147,18 @@ class DataStore(object):
     def add_interests(self, username, interests):
         self.db.user.update_one({"username": username}, {"$push": {"interests": {"$each": interests}}})
 
+    def similar_users(self, username):
+        interests = self.db.user.distinct("interests.name", {"username": username})
+        return list(self.db.user.aggregate([
+            {"$unwind": "$interests"},
+            {"$project": {"_id": "$interests.name", "username": 1, "facebook_id": 1, "name": 1}},
+            {"$match": {"_id": {"$in": interests}, "username": {"$ne": username}}},
+            {"$project": {"interest": "$_id", "username": 1, "facebook_id": 1, "name": 1}},
+            {"$group": {"_id": "$username", "interest": {"$sum": 1}, "name": {"$first": "$name"}, "facebook_id": {"$first": "$facebook_id"}}},
+            {"$sort": {"interest": -1}},
+            {"$limit": 10}
+        ]))
+
     def common_interests(self, limit):
         pipeline = [
             {"$unwind": "$interests"},

@@ -13,5 +13,51 @@
                 ${interest.name}
             </li>
         </ul>
+
+        <h2>New Friends?</h2>
+
+        <div class="media" tal:repeat="similar_user similar_users">
+            <div class="media-left">
+                <img alt="Profile picture for ${similar_user['name']}" class="media-object" id="fb-image-${similar_user['facebook_id']}">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">${similar_user['name']}</h4>
+                <!-- Link to similar_user['username'] -->
+                <!-- Link to Facebook profile? -->
+                <p>${similar_user['interest']} interests in common</p>
+            </div>
+        </div>
+
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '931894896899419',
+                    cookie: true,  // enable cookies to allow the server to access
+                                   // the session
+                    xfbml: true,  // parse social plugins on this page
+                    version: 'v2.2' // use version 2.2
+                });
+
+                FB.getLoginStatus(function(response) {
+                    if (response.status == 'connected')
+                    {
+                        var userIds = ${repr(map((lambda u: str(u['facebook_id'])), similar_users))};
+                        userIds.forEach(function(userId) {
+                            FB.api('/' + userId + '/picture', function (response) {
+                                $('#fb-image-' + userId).prop('src', response.data.url);
+                            });
+                        });
+                    }
+                });
+            };
+
+            (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
     </div>
 </metal:main>
