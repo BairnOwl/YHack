@@ -29,6 +29,7 @@
         git: repo=git://github.com/BairnOwl/YHack.git dest=/srv/app
         notify:
             - install app
+            - reload supervisor
       - name: ensure Python dependencies are installed
         pip: requirements=/srv/app/requirements.txt virtualenv=/opt/app_env
       - name: ensure Supervisor configuration is in place
@@ -49,6 +50,6 @@
       - name: restart nginx
         service: name=nginx state=restarted
       - name: reload supervisor
-        command: supervisorctl reload
+        shell: supervisorctl reload
       - name: install app
         command: /opt/app_env/bin/python setup.py install chdir=/srv/app/jungo
