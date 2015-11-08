@@ -9,9 +9,8 @@
 
         <metal:content define-slot="head">
             <style>
-                #logout-button {
 
-                }
+
             </style>
         </metal:content>
     </head>
@@ -32,7 +31,7 @@
             </div>
             <aside class="col-md-2">
                     <p tal:condition="request.authenticated_userid">
-                    <button id="logout-button" class="btn-danger" href="${request.application_url}/logout">Logout</button>
+                    <button id="logout-button" class="btn-default btn-block" style="margin-top:10px; width:60px; font-size:12px;" href="${request.application_url}/logout">Logout</button>
                 </p>
             </aside>
         </div>
