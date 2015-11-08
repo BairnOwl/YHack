@@ -27,10 +27,14 @@
         apt: name=python-dev state=present
       - name: ensure the latest source code is cloned
         git: repo=git://github.com/BairnOwl/YHack.git dest=/srv/app
+        notify:
+            - install app
       - name: ensure Python dependencies are installed
         pip: requirements=/srv/app/requirements.txt virtualenv=/opt/app_env
       - name: ensure Supervisor configuration is in place
         template: src=files/jungo.conf.j2 dest=/etc/supervisor/conf.d/jungo.conf owner=root mode=0644
+        notify:
+            - reload supervisor
       - name: ensure jungo service is started
         supervisorctl: name=jungo state=started
       - name: ensure nginx is installed
@@ -44,3 +48,7 @@
   handlers:
       - name: restart nginx
         service: name=nginx state=restarted
+      - name: reload supervisor
+        command: supervisorctl reload
+      - name: install app
+        command: /opt/app_env/bin/python setup.py install chdir=/srv/app/jungo
