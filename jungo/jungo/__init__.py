@@ -5,6 +5,7 @@ from pyramid.session import SignedCookieSessionFactory
 
 import pymongo
 
+import logging
 import urlparse
 
 from .model import DataStore
@@ -13,6 +14,7 @@ from .security import groupfinder
 session_factory = SignedCookieSessionFactory('cookie secret - changeme')
 
 def main(global_config, **settings):
+    logging.config.fileConfig(settings['logging.config'], disable_existing_loggers=False)
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(settings=settings, root_factory='jungo.model.RootFactory')
