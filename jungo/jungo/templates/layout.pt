@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             <aside class="col-md-2">
-
+                <metal:content define-slot="left"></metal:content>
             </aside>
             <div class="col-md-8">
                 <metal:content define-slot="content"></metal:content>

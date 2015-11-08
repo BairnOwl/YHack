@@ -78,6 +78,10 @@
             border-bottom: 1px solid grey;
         }
 
+        .disabled {
+            visibility: hidden;
+        }
+
         </style>
     </metal:content>
 <div metal:fill-slot="content">
@@ -185,6 +189,8 @@
 
                           var name = response['name'];
                           var username = $("#username").text();
+
+                          $("#fb-add-" + interest_id).addClass("disabled");
 
                           $.ajax({
                                 url: '/api/user/' + username + '/interests',

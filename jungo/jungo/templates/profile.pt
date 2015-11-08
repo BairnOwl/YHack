@@ -1,15 +1,31 @@
 <metal:main use-macro="load: layout.pt">
     <metal:content fill-slot="head">
         <title>${user.name}</title>
+        <style>
+            .main-content {
+                background-color: #ecf0f1;
+                padding-top: 10px;
+                padding-left: 35px;
+                padding-bottom: 10px;
+
+            }
+
+            header {
+                text-align: center;
+            }
+        </style>
     </metal:content>
     <metal:content fill-slot="header">
         <h1>${user.name}</h1>
         <h3>${user.username}</h3>
+
+    </metal:content>
+    <div metal:fill-slot="left">
         <div>
             <a class="btn btn-default" href="${request.route_url('search')}">Home</a>
         </div>
-    </metal:content>
-    <div metal:fill-slot="content">
+    </div>
+    <div metal:fill-slot="content" class="main-content">
         <h2>Interests</h2>
         <ul>
             <li tal:repeat="interest user.interests">
