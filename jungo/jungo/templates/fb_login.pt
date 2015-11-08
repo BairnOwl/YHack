@@ -258,7 +258,7 @@
                                     for (var i = 0; i < response.length; i++) {
                                         FB.api('/' + response[i].facebook_id + '/picture', function(response) {
                                             console.log(response);
-                                            $('#' + interest_id).append('<img scr="' + response.data.url + '" height="50px" width="50px" />');
+                                            $('#' + interest_id).append('<img src="' + response.data.url + '" height="50px" width="50px" />');
                                         });
                                         console.log(response[i].facebook_id);
                                          $('#' + interest_id).append('<p>' + response[i].name + '</p>');
