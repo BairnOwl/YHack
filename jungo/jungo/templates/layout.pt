@@ -30,9 +30,10 @@
                 <metal:content define-slot="content"></metal:content>
             </div>
             <aside class="col-md-2">
+                    <button id="account-button" href="">Account</button>
                     <p tal:condition="request.authenticated_userid">
                     <button id="logout-button" class="btn-default btn-block" style="margin-top:10px; width:60px; font-size:12px;" href="${request.application_url}/logout">Logout</button>
-                </p>
+                    </p>
             </aside>
         </div>
     </div>

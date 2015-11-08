@@ -64,12 +64,20 @@
             border-bottom: solid 2px #969696;
         }
 
+        .message {
+            margin-top: 5px;
+            text-align: center;
+            background-color: #C8F7C5;
+            height: 30px;
+            line-height: 30px;
+        }
 
         </style>
     </metal:content>
 <div metal:fill-slot="content">
 
     <span style="display: none" id="username">${user.username}</span>
+
 
 <script>
     // <![CDATA[
@@ -211,6 +219,7 @@
 //                              ]
 //                          });
 
+                          var name = response['name'];
                           var username = $("#username").text();
 
                           $.ajax({
@@ -230,7 +239,7 @@
                                     console.log(error);
                                 }
                           });
-                      })
+                      });
 
                       $('#fb-find-users-' + interest_id).click(function() {
 
@@ -241,7 +250,17 @@
                                 type: 'GET',
                                 success: function(response) {
                                     console.log(response);
+                                    if (!response.length > 0) {
+                                        $('#' + interest_id).append('<div class="message"><p>No one else is currently interested. :(</p></div>');
+                                    } else {
+                                        $('#' + interest_id).append('<div class="message"><p>These people are also interested! :)</p></div>');
+                                    }
                                     for (var i = 0; i < response.length; i++) {
+                                        FB.api('/' + response[i].facebook_id + '/picture', function(response) {
+                                            console.log(response);
+                                            $('#' + interest_id).append('<img scr="' + response.data.url + '" height="50px" width="50px" />');
+                                        });
+                                        console.log(response[i].facebook_id);
                                          $('#' + interest_id).append('<p>' + response[i].name + '</p>');
                                     }
 
@@ -278,10 +297,10 @@
         var interest_id = response['id'];
         var photo_link = response['photos'].data[0].images[0].source;
 
-        var html = '<div class="item media"><div class="media-left" id="' + interest_id + '" >' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
+        var html = '<div class="item media" id="' + interest_id + '"><div class="media-left">' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
                 + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p></div>'
                 + '<div class="media-right"><button class="btn-block btn-warning" id="fb-add-' + interest_id + '">Add</button>'
-                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/"' + interest_id + '>More ></a></button></div></div>';
+                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/' + interest_id + '">More ></a></button></div></div>';
 
         $('#display').append(html);
     }
