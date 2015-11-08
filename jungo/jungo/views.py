@@ -73,7 +73,14 @@ def common_interests_view(request):
 @view_config(route_name='profile', renderer='templates/profile.pt', permission='view')
 def profile_view(context, request):
     similar_users = request.db.similar_users(request.session['user'].username)
-    return dict(user=request.session['user'], similar_users=similar_users)
+    user = request.db.get_user(request.session['user'].username)
+    request.session['user'] = user # update it w/ any changes
+    return dict(user=user, similar_users=similar_users)
+
+@view_config(route_name='user', renderer='templates/profile.pt', permission='view')
+def user_view(request):
+    user = request.db.get_user(request.matchdict['username'])
+    return dict(user=user)
 
 @view_config(route_name='interest_match', renderer='json')
 def interest_match_view(request):

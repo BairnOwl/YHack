@@ -24,6 +24,7 @@ def main(global_config, **settings):
     config.add_route('search', '/')
     config.add_route('common_interests', '/common-interests')
     config.add_route('profile', '/me')
+    config.add_route('user', '/user/{username}')
 
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')

@@ -6,12 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <link rel="stylesheet" href="${request.static_url('jungo:static/theme.css')}">
 
         <metal:content define-slot="head">
-            <style>
-
-
-            </style>
         </metal:content>
     </head>
 
@@ -30,10 +27,11 @@
                 <metal:content define-slot="content"></metal:content>
             </div>
             <aside class="col-md-2">
-                    <button id="account-button" href="">Account</button>
-                    <p tal:condition="request.authenticated_userid">
-                    <button id="logout-button" class="btn-default btn-block" style="margin-top:10px; width:60px; font-size:12px;" href="${request.application_url}/logout">Logout</button>
-                    </p>
+                    <div class="btn-group" role="group" tal:condition="request.authenticated_userid">
+                        <a id="account-button" class="btn btn-default" href="${request.route_url('profile')}">Me</a>
+                        <a class="btn btn-default" href="${request.route_url('logout')}">Log Out</a>
+                    </div>
+                    <!--?<button id="logout-button" class="btn-default btn-block" style="margin-top:10px; width:60px; font-size:12px;" href="${request.application_url}/logout">Logout</button>-->
             </aside>
         </div>
     </div>
