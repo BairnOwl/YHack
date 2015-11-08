@@ -8,13 +8,13 @@
       - name: ensure Supervisor is installed
         apt: name=supervisor state=present
       - name: ensure jungo user exists
-        user: name=jungo createhome=no uid=1011
+        user: name=jungo uid=1011
       - name: ensure git is installed
         apt: name=git state=present
         # http://hakunin.com/six-ansible-practices
       - name: ensure github.com is a known host
         lineinfile:
-            dest: /root/.ssh/known_hosts
+            dest: /home/jungo/.ssh/known_hosts
             create: yes
             state: present
             line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
@@ -27,12 +27,20 @@
         apt: name=python-dev state=present
       - name: ensure the latest source code is cloned
         git: repo=git://github.com/BairnOwl/YHack.git dest=/srv/app
-      - name: install app
-        command: /opt/app_env/bin/python setup.py install chdir=/srv/app/jungo
-        notify:
-          - restart app
+        become: yes
+        become_user: jungo
       - name: ensure Python dependencies are installed
         pip: requirements=/srv/app/requirements.txt virtualenv=/opt/app_env
+        become: yes
+        become_user: jungo
+      - name: install app
+        command: /opt/app_env/bin/python setup.py install chdir=/srv/app/jungo
+        become: yes
+        become_user: jungo
+        notify:
+          - restart app
+      - name: ensure log file exists
+        file: name=/var/log/jungo.log state=touch owner=jungo
       - name: ensure Supervisor configuration is in place
         template: src=files/jungo.conf.j2 dest=/etc/supervisor/conf.d/jungo.conf owner=root mode=0644
         notify:
