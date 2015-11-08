@@ -91,7 +91,7 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+        loadCommonInterests();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -148,17 +148,6 @@
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
 
 
   function search() {
@@ -297,12 +286,30 @@
         var interest_id = response['id'];
         var photo_link = response['photos'].data[0].images[0].source;
 
+        var interestedCount = '';
+        if(response['interestedCount'])
+        {
+            interestedCount = '<p><em>' + response['interestedCount'] + ' people are interested in this</em></p>';
+        }
+
         var html = '<div class="item media" id="' + interest_id + '"><div class="media-left">' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
-                + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p></div>'
+                + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p>' + interestedCount + '</div>'
                 + '<div class="media-right"><button class="btn-block btn-warning" id="fb-add-' + interest_id + '">Add</button>'
                 + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/' + interest_id + '">More ></a></button></div></div>';
 
         $('#display').append(html);
+    }
+
+    function loadCommonInterests() {
+        $.getJSON("/api/common-interests", function(response) {
+            $('#display').html('');
+            response.interests.forEach(function (interest) {
+                FB.api('/' + interest.facebook_id + '?fields=id,name,about,description,general_info,' + 'photos{link,images}', function(data) {
+                    data['interestedCount'] = interest.count;
+                    createSearchItem(data);
+                });
+            });
+        });
     }
 
     // ]]>
@@ -315,10 +322,7 @@
 -->
 
 <!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
-
-<div id="status">
-</div>-->
+</fb:login-button>-->
 
 <div id="search_panel">
     <input id="searchBox" type="text" />
