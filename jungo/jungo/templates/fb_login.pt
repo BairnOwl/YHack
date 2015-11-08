@@ -4,34 +4,67 @@
         <title>Facebook Login JavaScript Example</title>
 
         <meta charset="UTF-8">
+        <link href="${request.static_url('jungo:static/theme.css')}" rel="stylesheet">
         <style>
-        /** {
-            margin: 0;
-            padding: 0;
-        }*/
 
         body {
-            background-color: #5CC201;
+            background-color: #2ecc71;
+        }
+
+        h2 {
+            font-size: 20px;
         }
 
 
         .item {
-            border: 2px solid darkblue;
-            background-color: white;
-            /*width: 80%;
-            margin: auto;*/
-            padding: 10px;
+
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin-top: 5px;
         }
 
         .searchImg {
-            max-height: 100px;
             max-width: 100px;
+            max-height: 100px;
+
+        }
+
+        .btn-warning {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+
+        .btn-lg {
+            height: 45px;
+            margin-left: 5px;
+        }
+
+        .btn-link {
+            margin-top: 5px;
+            text-align: right;
+            width: 100px;
+        }
+
+        #search_panel {
+
 
         }
 
         #searchBox {
-
+            padding: 10px;
+            border: none;
+            border-bottom: solid 2px #c9c9c9;
+            transition: border 0.3s;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            width: 80%;
         }
+
+        #searchBox:focus, #searchBox.focus {
+            border-bottom: solid 2px #969696;
+        }
+
+
         </style>
     </metal:content>
 <div metal:fill-slot="content">
@@ -151,21 +184,23 @@
 
                       FB.api('/' + id + '?fields=id,name,about,description,general_info,' + 'photos{link,images}', function(response) {
 
-                      var name = response['name'];
-                      var about = response['about'];
-                      var description = response['description'];
+                      //var name = response['name'];
+                      //var about = response['about'];
+                      //var description = response['description'];
                       var interest_id = response['id'];
-                      var photo_link = response['photos'].data[0].images[0].source;
+                      //var photo_link = response['photos'].data[0].images[0].source;
 
                       //nameArray.append(name);
                       //aboutArray.append(about);
                       //descriptionArray.append(description);
                           console.log(response);
 
-                      $('#display').append('<div class="item" id="' + interest_id + '" >' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
-                              + '<img class="searchImg" src="' + photo_link + '" />'
-                              + '<button id="fb-add-' + interest_id + '">Add</button>'
-                              + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
+                      createSearchItem(response);
+
+//                      $('#display').append('<div class="item media" id="' + interest_id + '" >' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
+//                              + '<img class="searchImg" src="' + photo_link + '" />'
+//                              + '<button id="fb-add-' + interest_id + '">Add</button>'
+//                              + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
 
                       $("#fb-add-" + interest_id).click(function() {
 
@@ -198,8 +233,10 @@
 
                       $('#fb-find-users-' + interest_id).click(function() {
 
+                          var username = $("#username").text();
+
                           $.ajax({
-                                url: '/interest-match/dvader/' + interest_id,
+                                url: '/interest-match/' + username + '/' + interest_id,
                                 type: 'GET',
                                 success: function(response) {
                                     console.log(response);
@@ -233,6 +270,21 @@
       )
   }
 
+    function createSearchItem(response) {
+        var name = response['name'];
+        var about = response['about'];
+        //var description = response['description'];
+        var interest_id = response['id'];
+        var photo_link = response['photos'].data[0].images[0].source;
+
+        var html = '<div class="item media"><div class="media-left" id="' + interest_id + '" >' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
+                + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p></div>'
+                + '<div class="media-right"><button class="btn-block btn-warning" id="fb-add-' + interest_id + '">Add</button>'
+                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link">More ></button></div></div>';
+
+        $('#display').append(html);
+    }
+
 </script>
 
 <!--
@@ -241,15 +293,15 @@
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">
-</div>
+</div>-->
 
 <div id="search_panel">
-    <input id="searchBox" type="text" style="width: 300px;" />
-    <input type="button" value="Search" onclick="search();">
+    <input id="searchBox" type="text" />
+    <input class="btn-lg btn-primary" type="button" value="Search" onclick="search();">
 </div>
 
 <div id="display">

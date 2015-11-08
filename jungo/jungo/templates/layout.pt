@@ -7,7 +7,13 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-        <metal:content define-slot="head"></metal:content>
+        <metal:content define-slot="head">
+            <style>
+                #logout-button {
+
+                }
+            </style>
+        </metal:content>
     </head>
 
     <body>
@@ -19,15 +25,15 @@
         </div>
         <div class="row">
             <aside class="col-md-2">
-                <p tal:condition="request.authenticated_userid">
-                    <a href="${request.application_url}/logout">Logout</a>
-                </p>
+
             </aside>
             <div class="col-md-8">
                 <metal:content define-slot="content"></metal:content>
             </div>
             <aside class="col-md-2">
-
+                    <p tal:condition="request.authenticated_userid">
+                    <button id="logout-button" class="btn-danger" href="${request.application_url}/logout">Logout</button>
+                </p>
             </aside>
         </div>
     </div>
