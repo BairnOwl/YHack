@@ -8,7 +8,7 @@
         <style>
 
         body {
-            background-color: black; /*#2ecc71*/
+            background-color: #2ecc71;
         }
 
         h2 {
