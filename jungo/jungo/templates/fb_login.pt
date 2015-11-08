@@ -72,6 +72,12 @@
             line-height: 30px;
         }
 
+        .user-result {
+            background-color: #FFE898;
+            padding: 5px;
+            border-bottom: 1px solid grey;
+        }
+
         </style>
     </metal:content>
 <div metal:fill-slot="content">
@@ -151,10 +157,7 @@
 
 
   function search() {
-      /* make the API call */
-//      FB.api('/me', {fields: 'last_name'}, function (response) {
-//          console.log(response);
-//      });
+      /* make the API call */;
 
       var searchTerm = $('#searchBox').val();
 
@@ -165,15 +168,7 @@
                 /* handle the result */
                   var pageArray = response.data;
 
-                  //var name = pageArray[0].name;
-                  //var id = pageArray[0].id;
-
-                  //$('#pageDisplay').attr('src', 'http://www.facebook.com/pages/' + name + '/' + id);
-
                   var item = '';
-                  //var nameArray = [];
-                  //var aboutArray = [];
-                  //var descriptionArray = [];
 
                   $('#display').html('');
 
@@ -182,31 +177,11 @@
 
                       FB.api('/' + id + '?fields=id,name,about,description,general_info,' + 'photos{link,images}', function(response) {
 
-                      //var name = response['name'];
-                      //var about = response['about'];
-                      //var description = response['description'];
                       var interest_id = response['id'];
-                      //var photo_link = response['photos'].data[0].images[0].source;
-
-                      //nameArray.append(name);
-                      //aboutArray.append(about);
-                      //descriptionArray.append(description);
-                          console.log(response);
 
                       createSearchItem(response);
 
-//                      $('#display').append('<div class="item media" id="' + interest_id + '" >' + '<p>' + name + '</p>' + '<p>' + about + '</p>' + '<p>' + description + '</p>'
-//                              + '<img class="searchImg" src="' + photo_link + '" />'
-//                              + '<button id="fb-add-' + interest_id + '">Add</button>'
-//                              + '<button id="fb-find-users-' + interest_id + '">Find users</button>' + '</div>');
-
                       $("#fb-add-" + interest_id).click(function() {
-
-//                          $.post("/api/user/dvader/interests", {
-//                              interests: [
-//                                  {name: name, facebook_id: interest_id}
-//                              ]
-//                          });
 
                           var name = response['name'];
                           var username = $("#username").text();
@@ -222,7 +197,7 @@
 
                                 type: 'POST',
                                 success: function(response) {
-                                    console.log(response);
+                                    //console.log(response);
                                 },
                                 error: function(error) {
                                     console.log(error);
@@ -238,19 +213,29 @@
                                 url: '/interest-match/' + username + '/' + interest_id,
                                 type: 'GET',
                                 success: function(response) {
-                                    console.log(response);
+                                    //console.log(response);
                                     if (!response.length > 0) {
                                         $('#' + interest_id).append('<div class="message"><p>No one else is currently interested. :(</p></div>');
                                     } else {
                                         $('#' + interest_id).append('<div class="message"><p>These people are also interested! :)</p></div>');
                                     }
                                     for (var i = 0; i < response.length; i++) {
-                                        FB.api('/' + response[i].facebook_id + '/picture', function(response) {
-                                            console.log(response);
-                                            $('#' + interest_id).append('<img src="' + response.data.url + '" height="50px" width="50px" />');
-                                        });
-                                        console.log(response[i].facebook_id);
-                                         $('#' + interest_id).append('<p>' + response[i].name + '</p>');
+                                        //var fb_id = response[i].facebook_id;
+
+
+
+                                        //FB.api('/' + response[i].facebook_id + '/picture', function(result) {
+
+//                                            for (var j = 0; j < response.length; j++) {
+//                                                var result = FB.api('/' + response[j].facebook_id + '/picture');
+//
+//                                                $('#user-' + response[j].facebook_id).append('<img src="' + result.data.url + '" height="50px" width="50px" />');
+//                                            }
+
+                                        //});
+                                        console.log(response);
+
+                                         $('#' + interest_id).append('<div id="user-' + response[i].facebook_id + '" class="user-result">' + '<p>' + response[i].name + '</p></div>');
                                     }
 
                                 },
@@ -259,17 +244,7 @@
                                 }
                           });
                       })
-
-
                       });
-
-                      //FB.api('/' + id + '/photos?fields=link,images', function(response) {
-                          //console.log(response);
-                          //var image = response.data[0].images[0].source;
-                          //item += '<img src="' + image + '" style="max-height:200px; max-width:200px;" />';
-
-                      //});
-
                   }
 
               } else {
@@ -295,7 +270,7 @@
         var html = '<div class="item media" id="' + interest_id + '"><div class="media-left">' + '<img class="searchImg media-object" src="' + photo_link + '" /></div>'
                 + '<div class="media-body"><h2 class="media-heading">' + name + '</h2>' + '<p>' + about + '</p>' + interestedCount + '</div>'
                 + '<div class="media-right"><button class="btn-block btn-warning" id="fb-add-' + interest_id + '">Add</button>'
-                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/' + interest_id + '">More ></a></button></div></div>';
+                + '<button class="btn-block btn-primary" id="fb-find-users-' + interest_id + '">Find</button>' + '<button class="btn-link"><a href="http://www.facebook.com/' + interest_id + '" target="_blank">More ></a></button></div></div>';
 
         $('#display').append(html);
     }
