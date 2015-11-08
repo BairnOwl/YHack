@@ -5,7 +5,7 @@ from pyramid.session import SignedCookieSessionFactory
 
 import pymongo
 
-import logging
+import logging.config
 import urlparse
 
 from .model import DataStore
