@@ -72,6 +72,7 @@
     <span style="display: none" id="username">${user.username}</span>
 
 <script>
+    // <![CDATA[
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -285,6 +286,7 @@
         $('#display').append(html);
     }
 
+    // ]]>
 </script>
 
 <!--
