@@ -44,9 +44,10 @@ def login(request):
 
 @view_config(route_name = 'logout')
 def logout(request):
+    log.info("Logging out {}".format(request.authenticated_userid))
     headers = forget(request)
     request.session['user'] = None
-    return HTTPFound(location = request.route_url('home'), headers = headers)
+    return HTTPFound(location = request.route_url('search'), headers = headers)
 
 @view_config(route_name='home', renderer='templates/mytemplate.pt', permission = 'view')
 def my_view(request):
