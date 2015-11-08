@@ -23,31 +23,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fb_login.pt" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fb_login.pt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jungo/templates/fb_login.pt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37990582" vertical-offset="3658" max-vertical-offset="5070">
-              <caret line="260" column="81" selection-start-line="260" selection-start-column="81" selection-end-line="260" selection-end-column="81" />
+            <state vertical-scroll-proportion="-10.291667" vertical-offset="893" max-vertical-offset="5070">
+              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jungo/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="316" max-vertical-offset="1155">
-              <caret line="33" column="49" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.pt" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="login.pt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jungo/templates/login.pt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.5416667" vertical-offset="640" max-vertical-offset="1290">
-              <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.7250409" vertical-offset="472" max-vertical-offset="2145">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -66,7 +56,7 @@
       <file leaf-file-name="layout.pt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jungo/templates/layout.pt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="765">
+            <state vertical-scroll-proportion="-14.666667" vertical-offset="113" max-vertical-offset="765">
               <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
               <folding />
             </state>
@@ -76,7 +66,7 @@
       <file leaf-file-name="mytemplate.pt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jungo/templates/mytemplate.pt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="900">
+            <state vertical-scroll-proportion="-6.4583335" vertical-offset="250" max-vertical-offset="900">
               <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
               <folding />
             </state>
@@ -105,10 +95,10 @@
       <list>
         <option value="$PROJECT_DIR$/fb_login.html" />
         <option value="$PROJECT_DIR$/jungo/__init__.py" />
-        <option value="$PROJECT_DIR$/jungo/templates/login.pt" />
         <option value="$PROJECT_DIR$/jungo/static/theme.css" />
         <option value="$PROJECT_DIR$/jungo/templates/layout.pt" />
         <option value="$PROJECT_DIR$/jungo/templates/fb_login.pt" />
+        <option value="$PROJECT_DIR$/jungo/templates/login.pt" />
       </list>
     </option>
   </component>
@@ -793,14 +783,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jungo/templates/mytemplate.pt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="900">
-          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jungo/static/theme.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
@@ -809,9 +791,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/jungo/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48961425" vertical-offset="0" max-vertical-offset="1155">
+          <caret line="33" column="49" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jungo/templates/mytemplate.pt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.4583335" vertical-offset="250" max-vertical-offset="900">
+          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jungo/templates/fb_login.pt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.291667" vertical-offset="893" max-vertical-offset="5070">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jungo/templates/layout.pt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="765">
+        <state vertical-scroll-proportion="-14.666667" vertical-offset="113" max-vertical-offset="765">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
           <folding />
         </state>
@@ -819,24 +825,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jungo/templates/login.pt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.5416667" vertical-offset="640" max-vertical-offset="1290">
-          <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jungo/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
-          <caret line="33" column="49" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jungo/templates/fb_login.pt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37990582" vertical-offset="3658" max-vertical-offset="5070">
-          <caret line="260" column="81" selection-start-line="260" selection-start-column="81" selection-end-line="260" selection-end-column="81" />
+        <state vertical-scroll-proportion="0.7250409" vertical-offset="472" max-vertical-offset="2145">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding />
         </state>
       </provider>
