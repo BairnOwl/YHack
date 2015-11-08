@@ -1,3 +1,4 @@
 pyramid>=1.5
 pymongo>=3.1
 uwsgi>=2.0.0
+PasteDeploy>=1.5

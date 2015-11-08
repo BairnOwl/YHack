@@ -7,6 +7,8 @@
   tasks:
       - name: ensure Supervisor is installed
         apt: name=supervisor state=present
+      - name: ensure jungo user exists
+        user: name=jungo createhome=no uid=1011
       - name: ensure git is installed
         apt: name=git state=present
         # http://hakunin.com/six-ansible-practices
@@ -21,6 +23,8 @@
         apt: name=python-pip state=present
       - name: ensure virtualenv is installed
         apt: name=python-virtualenv state=present
+      - name: ensure Python headers are installed
+        apt: name=python-dev state=present
       - name: ensure the latest source code is cloned
         git: repo=git://github.com/BairnOwl/YHack.git dest=/srv/app
       - name: ensure Python dependencies are installed

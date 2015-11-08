@@ -1,12 +1,42 @@
 # http://tonylandis.com/python/deployment-howt-pylons-nginx-and-uwsgi/
-server {
-    listen 80;
-    charset utf-8;
-    root /srv/app/jungo/static;
-    index index.html;
-    location / {
-        uwsgi_pass 0.0.0.0:3031
-        include uwsgi_params;
-        uwsgi_param SCRIPT_NAME /;
+user www-data;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    access_log  /var/log/nginx/access.log;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+    tcp_nodelay        on;
+
+    gzip  on;
+
+    upstream uwsgi_cluster {
+        server 0.0.0.0:3031;
+    }
+
+    server {
+        listen 80;
+        charset utf-8;
+        root /srv/app/jungo/static;
+        index index.html;
+        location / {
+            uwsgi_pass uwsgi_cluster;
+            include uwsgi_params;
+            uwsgi_param SCRIPT_NAME /;
+        }
     }
 }

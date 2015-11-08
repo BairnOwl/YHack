@@ -1,5 +1,5 @@
 [program:jungo]
-command=uwsgi --paste config:/etc/app/jungo/production.ini --socket :3031 -H /opt/app_env
+command=/opt/app_env/bin/uwsgi --enable-threads --uid=1011 --paste config:/etc/app/jungo/production.ini --socket :3031 -H /opt/app_env
 autostart=true
 autorestart=true
 stderr_logfile=/var/log/jungo.err.log
